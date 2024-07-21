@@ -1,0 +1,67 @@
+/*
+ * Replace this with your own classes
+ *
+ * e.g.
+ * .container {
+ * }
+*/
+
+.header {
+    font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e5ea;
+    position: sticky;
+    top: 0;
+    .left-panel {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        &__logo {
+            color: #6049f5;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        &__nav {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+
+            &--item {
+                color: #53535f;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                background: none;
+                &:hover {
+                    background: #f3f4f6;
+                    color: black;
+                }
+            }
+        }
+    }
+    .right-panel{
+        color: #53535f;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        background: none;
+        &:hover{
+            background-color: #f3f4f6;
+            color: black;
+        }
+    }
+
+}

@@ -1,0 +1,88 @@
+{
+  "name": "vendor-clone",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vendor-clone/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/vendor-clone",
+        "index": "apps/vendor-clone/src/index.html",
+        "baseHref": "/",
+        "main": "apps/vendor-clone/src/main.ts",
+        "tsConfig": "apps/vendor-clone/tsconfig.app.json",
+        "postcssConfig": "apps/vendor-clone/postcss.config.js",
+        "assets": [
+          "apps/vendor-clone/src/favicon.ico",
+          "apps/vendor-clone/src/assets"
+        ],
+        "styles": ["apps/vendor-clone/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "apps/vendor-clone/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/vendor-clone/src/environments/environment.ts",
+              "with": "apps/vendor-clone/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/vendor-clone/webpack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "vendor-clone:build",
+        "hmr": true,
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "vendor-clone:build:development"
+        },
+        "production": {
+          "buildTarget": "vendor-clone:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "vendor-clone:build",
+        "watch": false,
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "vendor-clone:build:development"
+        },
+        "production": {
+          "buildTarget": "vendor-clone:build:production"
+        }
+      }
+    }
+  }
+}

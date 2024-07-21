@@ -1,0 +1,87 @@
+{
+  "name": "procurement",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/procurement/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/procurement",
+        "index": "apps/procurement/src/index.html",
+        "baseHref": "/",
+        "main": "apps/procurement/src/main.ts",
+        "tsConfig": "apps/procurement/tsconfig.app.json",
+        "assets": [
+          "apps/procurement/src/favicon.ico",
+          "apps/procurement/src/assets"
+        ],
+        "styles": ["apps/procurement/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "apps/procurement/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/procurement/src/environments/environment.ts",
+              "with": "apps/procurement/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/procurement/webpack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "procurement:build",
+        "hmr": true,
+        "port": 4202
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "procurement:build:development"
+        },
+        "production": {
+          "buildTarget": "procurement:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "procurement:build",
+        "watch": false,
+        "port": 4202
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "procurement:build:development"
+        },
+        "production": {
+          "buildTarget": "procurement:build:production"
+        }
+      }
+    }
+  }
+}
