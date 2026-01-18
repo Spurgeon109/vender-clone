@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import MovingBanner from "../client-profits/client-profits"
 
 
 export default function Home() {
+    const stepRefs = useRef<HTMLElement[]>([]);
     const [clientProfitData, setClientProfitData] = useState([])
     const steps = [
         {
@@ -23,10 +24,11 @@ export default function Home() {
     ]
 
     useEffect(()=>{
-        fetch('http://localhost:3001/get-profited-clients').then(async (jsonPromise)=>{
-            const data = await jsonPromise.json()
-            setClientProfitData(data)
-        })
+        
+            fetch('http://localhost:3001/get-profited-clients').then(async (jsonPromise)=>{
+                const data = await jsonPromise.json()
+                setClientProfitData(data)
+            }).catch((err)=>{console.log(err)})
     },[])
     return (
         <section>
@@ -54,7 +56,7 @@ export default function Home() {
                 </div>
             </div>
             <div className='w-full h-fit z-10 relative bg-white border-solid border-[#a0a0a1] border-t-[1px]'>
-                <div className='flex gap-4 absolute w-fit backdrop-blur top-[-20px] left-1/2 translate-x-[-50%] p-4 rounded-2xl'>
+                <div className='flex gap-4 absolute w-fit backdrop-blur top-[-20px] left-1/2 translate-x-[-50%] p-4 rounded-2xl border-[1px] border-blue-50'>
                     <span>USED BY:</span>
                     <span className='font-bold'>B R E X</span>
                     <span className='font-bold'>C A N V A</span>
@@ -66,7 +68,7 @@ export default function Home() {
                 <div className='[&>*:nth-child(odd)]:flex-row-reverse'>
                     {
                         steps.map((step, idx) => 
-                        <div className='flex gap-1 items-center justify-center'>
+                        <div className='step flex gap-1 items-center justify-center'>
                             <div className='flex flex-col w-[30rem]'>
                                 <span className='bg-[#ccccd1] rounded-full text-black font-bold w-fit h-fit px-[1rem] py-[0.5rem]'>{idx+1}</span>
                                 <span className='font-bold'>{step.title}</span>
